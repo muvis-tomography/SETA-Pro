@@ -6,11 +6,10 @@ SETA Recon Pro is a user-friendly, standalone executable tool developed to perfo
 
 The tool is specifically designed to support real-world CBCT data collected from:
 
-📌 DIONDO d5
+📌 [DIONDO d5](https://muvis.org/equipment/nxct-diondo-d5)  
+📌 [Nikon XT H 450 / 225 systems](https://muvis.org/equipment/custom-450-225-kvp-hutch)
 
-📌 Nikon XT H 450 / 225 systems
-
-These systems have been tested and validated at the University of Southampton, part of the [National X-ray Computed Tomography facility (NXCT)](https://www.southampton.ac.uk/muvis/about/equipment/d5.page).
+These systems have been tested and validated at the [University of Southampton](https://muvis.org/), as part of the [National X-ray Computed Tomography facility (NXCT)](https://muvis.org/).
 
 🔹 User Interface: A clean and intuitive interface for quick setup and reconstruction.
 
