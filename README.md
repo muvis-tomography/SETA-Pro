@@ -9,7 +9,7 @@ The tool is specifically designed to support real-world CBCT data collected from
 📌 [DIONDO d5](https://muvis.org/equipment/nxct-diondo-d5)  
 📌 [Nikon XT H 450 / 225 systems](https://muvis.org/equipment/custom-450-225-kvp-hutch)
 
-These systems have been tested and validated at the [University of Southampton](https://muvis.org/), as part of the [National X-ray Computed Tomography facility (NXCT)](https://muvis.org/).
+These systems have been tested and validated at the [μ-VIS X-Ray Imaging Centre](https://muvis.org/), University of Southampton, as part of the [National X-ray Computed Tomography facility (NXCT)](https://muvis.org/).
 
 🔹 User Interface: A clean and intuitive interface for quick setup and reconstruction.
 
