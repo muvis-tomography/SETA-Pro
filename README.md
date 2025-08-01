@@ -22,9 +22,13 @@ Reconstructs only the central slice of the scanned volume.
 Mode 2: Full Volume Reconstruction
 Uses an intelligent chunking strategy based on available system memory (10% RAM used for projection upload).
 
-Mode 3: Z-range Reconstruction
-Reconstructs a user-defined range of slices using a method described in the accompanying publication.
-[Related publication on Google Scholar]([https://scholar.google.com/citations?view_op=view_citation&hl=en&user=8O9RNFEAAAAJ&sortby=pubdate&citation_for_view=8O9RNFEAAAAJ%3Ap2g8aNsByqUC](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Scalable+FBP+decomposition+for+cone-beam+CT+reconstruction&btnG=))
+Mode 3: Z-range Reconstruction  
+Reconstructs a user-defined range of slices using a method described in the accompanying publication.  
+
+**Scalable FBP decomposition for cone-beam CT reconstruction**  
+_P. Chen, M. Wahib, X. Wang, T. Hirofuchi, H. Ogawa, A. Biguri, R. Boardman, T. Blumensath, S. Matsuoka_  
+[🔗 View on Google Scholar](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Scalable+FBP+decomposition+for+cone-beam+CT+reconstruction&btnG=)  
+[📄 DOI (acm.org)](https://doi.org/10.1145/3458817.3476139)  
 
 🔹 Automatic Center of Rotation Estimation
 This ensures accurate alignment before reconstruction.
