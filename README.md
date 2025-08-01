@@ -1,7 +1,6 @@
 
 SETA Recon Pro v1.0 – A Standalone Executable Tool for Automated Image Reconstruction in Cone Beam Computed Tomography
 
-
 SETA Recon Pro is a user-friendly, standalone executable tool developed to perform automated 3D image reconstruction from Cone Beam CT (CBCT) data. The tool integrates key libraries such as TIGRE and Algotom, providing an accessible solution for users who may not be familiar with complex reconstruction workflows.
 
 The tool is specifically designed to support real-world CBCT data collected from:
