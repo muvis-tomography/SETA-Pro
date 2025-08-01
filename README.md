@@ -10,8 +10,7 @@ The tool is specifically designed to support real-world CBCT data collected from
 
 📌 Nikon XT H 450 / 225 systems
 
-
-These systems have been tested and validated at the University of Southampton as part of the National X-ray Computed Tomography facility (NXCT).
+These systems have been tested and validated at the University of Southampton, part of the [National X-ray Computed Tomography facility (NXCT)](https://www.southampton.ac.uk/muvis/about/equipment/d5.page).
 
 🔹 User Interface: A clean and intuitive interface for quick setup and reconstruction.
 
@@ -25,7 +24,7 @@ Uses an intelligent chunking strategy based on available system memory (10% RAM 
 
 Mode 3: Z-range Reconstruction
 Reconstructs a user-defined range of slices using a method described in the accompanying publication.
-# https://scholar.google.com/citations?view_op=view_citation&hl=en&user=8O9RNFEAAAAJ&sortby=pubdate&citation_for_view=8O9RNFEAAAAJ:p2g8aNsByqUC
+[Related publication on Google Scholar](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=8O9RNFEAAAAJ&sortby=pubdate&citation_for_view=8O9RNFEAAAAJ%3Ap2g8aNsByqUC)
 
 🔹 Automatic Center of Rotation Estimation
 This ensures accurate alignment before reconstruction.
