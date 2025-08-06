@@ -3,6 +3,13 @@ SETA Recon Pro v1.0 – A Standalone Executable Tool for Automated Image Reconst
 
 SETA Recon Pro is a user-friendly, standalone executable tool developed to perform automated 3D image reconstruction from Cone Beam CT (CBCT) data. The tool integrates key libraries such as TIGRE and Algotom, providing an accessible solution for users who may not be familiar with complex reconstruction workflows.
 
+## 🔽 Download
+
+You can download the latest standalone executable here:  
+[**Download SETA Recon Pro v1.0**](https://github.com/muvis-tomography/SETA-Lite/releases/tag/v1.0)
+
+> No installation required. Just run the `.exe` file.
+
 The tool is specifically designed to support real-world CBCT data collected from:
 
 📌 [DIONDO d5](https://muvis.org/equipment/nxct-diondo-d5)  
@@ -43,16 +50,31 @@ Sinogram filtering and cleaning, implemented via Algotom, to reduce streaks and 
 🔹 Compatibility with other machines (e.g., Nikon and Diondo):
 Thanks to a modular reader design, support for new devices can be added easily.
 
-
 🧱 Architecture
 TIGRE – GPU-accelerated iterative and analytical reconstruction algorithms.
 
 Algotom – Advanced sinogram preprocessing in sinogram domain
 
-
 🖥️ System Requirements
-OS: Windows (Tested)
+OS: Windows 
 
 GPU: CUDA-compatible GPU (recommended for TIGRE acceleration)
 
 RAM: Min. 8GB (tool auto-manages based on available memory)
+
+**Tested configuration:**
+The executable version was tested on the following system:
+
+- OS: Windows Server 2022  
+- GPU: NVIDIA GeForce RTX 3060 (12 GB VRAM)  
+- CUDA Toolkit: 11.8  
+- Python: 3.10 
+- RAM: 256 GB  
+
+Key packages:
+
+- pytigre==3.0.0  
+- algotom==1.6.0  
+- numpy, scipy, numba, matplotlib  
+
+This configuration supports all three reconstruction modes with GPU acceleration via TIGRE and sufficient memory for large-volume processing.
