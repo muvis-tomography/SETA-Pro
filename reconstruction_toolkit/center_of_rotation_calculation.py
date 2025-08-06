@@ -55,7 +55,7 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
     
     # --- STEP 1: Determine Binning Parameters ---
     detector_width_px = proj_central.shape[2] 
-    voxel_size_mm = geo.dVoxel[1] 
+    voxel_size_mm = geo.dVoxel[2] 
     #grid_range_mm = (detector_width_px * voxel_size_mm) / 4
     grid_range_mm = min((detector_width_px * voxel_size_mm) / 4, 5.0)
 
@@ -92,7 +92,10 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
     #print(geo_binned)
 
     for offset in offsets:
-        geo.rotation_axis_offset = offset
+        #geo.rotation_axis_offset = offset
+        voxel_mm_binnned = geo_binned.dVoxel[2]
+        geo_binned.COR= offset * voxel_mm_binnned
+        print("binned", geo_binned.COR)
         reco = algs.fdk(proj_filtered_binned, geo_binned, angles, gpuids=gpuids)
         sharpness = np.sum(reco[0] ** 2)
         sharpness_vals.append(sharpness)
@@ -107,12 +110,16 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
     else:
         coarse_offset = offsets[best_idx]
 
-    scale = geo.dDetector[1] / geo_binned.dDetector[1]
-    coarse_offset_corrected = coarse_offset / scale
+    #scale = geo_binned.dDetector[1] / geo.dDetector[1]  
+    #print("scale",scale)
+    coarse_offset_corrected = coarse_offset #* geo_binned.dVoxel[2]
+    print("coarse_offset",np.abs(coarse_offset_corrected) )
 
     # --- STEP 4: Refined Golden Section Search using full-resolution data ---
     def sharpness_metric(offset):
-        geo.COR= offset
+        voxel_mm = geo.dVoxel[2]
+        geo.COR  = offset * voxel_mm
+        print(geo.COR)
         reco = algs.fdk(proj_processed, geo, angles, gpuids=gpuids)
         return np.sum(reco[0] ** 2)
 
@@ -120,23 +127,37 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
         gr = (math.sqrt(5) + 1) / 2
         c = b - (b - a) / gr
         d = a + (b - a) / gr
+        eval_c = f(c)
+        eval_d = f(d)
         for _ in range(max_iter):
             if abs(c - d) < tol:
                 break
-            if f(c) > f(d):
+            if eval_c > eval_d:
                 b = d
+                d = c
+                eval_d = eval_c
+                c = b - (b - a) / gr
+                eval_c = f(c)
             else:
                 a = c
-            c = b - (b - a) / gr
-            d = a + (b - a) / gr
-        return (b + a) / 2
+                c = d
+                eval_c = eval_d
+                d = a + (b - a) / gr
+                eval_d = f(d)
+
+    # Fit parabola to last three points (c, mid, d)
+        x_fit = [a, (a + b) / 2, b]
+        y_fit = [f(x) for x in x_fit]
+        z = np.polyfit(x_fit, y_fit, 2)
+        min_point = -z[1] / (2 * z[0])
+        return min_point
 
     print("Running refined search (GSS)...")
-    voxel_mm = geo.dVoxel[1]
-    search_a = coarse_offset_corrected  - 2 * voxel_mm
-    search_b = coarse_offset_corrected  + 2 * voxel_mm
-    refined_offset = golden_section_search(sharpness_metric, search_a, search_b, tol=0.005 * voxel_mm)
-    #refined_offset = refined_offset * voxel_mm
+    voxel_mm = geo.dVoxel[2]
+    search_a = max(0.0, coarse_offset_corrected - 2 * voxel_mm)
+    search_b = coarse_offset_corrected + 2 * voxel_mm
+    refined_offset = golden_section_search(sharpness_metric, search_a, search_b, tol=0.0001 * voxel_mm)
+    refined_offset = np.abs(refined_offset) * voxel_mm
 
     print(f"[COR] Estimated optimal COR offset = {refined_offset:.6f} mm")
     return refined_offset
