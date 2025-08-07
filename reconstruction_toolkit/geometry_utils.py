@@ -143,25 +143,58 @@ def trim_geo_after_padding(geo, pad_width):
 
 
 
-def bin_projection_geo(proj,geo, bin_factor):
-    shape = proj.shape
-    width = proj.shape[2]
-    half_panel = (width - 1)/2
-    new_u = shape[2] // bin_factor
-    proj_binned = proj[:, :, :new_u * bin_factor].reshape(shape[0], shape[1], new_u, bin_factor)
-    # Create binned geometry
-    geo_binned = copy.deepcopy(geo)
-    geo_binned.nDetector[1] = proj_binned.shape[2]
-    geo_binned.dDetector[1] = geo.dDetector[1] * bin_factor
-    geo_binned.sDetector[1] = geo_binned.nDetector[1] * geo_binned.dDetector[1]
+#def bin_projection_geo(proj,geo, bin_factor):
+#    shape = proj.shape
+#    width = proj.shape[2]
+#    half_panel = (width - 1)/2
+#    new_u = shape[2] // bin_factor
+#    proj_binned = proj[:, :, :new_u * bin_factor].reshape(shape[0], shape[1], new_u, bin_factor)
+#    # Create binned geometry
+#    geo_binned = copy.deepcopy(geo)
+#    geo_binned.nDetector[1] = proj_binned.shape[2]
+#    geo_binned.dDetector[1] = geo.dDetector[1] * bin_factor
+#    geo_binned.sDetector[1] = geo_binned.nDetector[1] * geo_binned.dDetector[1]
 
     # (Optional but recommended) Update voxel size and image grid accordingly:
-    geo_binned.nVoxel[1] = geo.nVoxel[1] // bin_factor
-    geo_binned.nVoxel[2] = geo.nVoxel[2] // bin_factor
-    geo_binned.dVoxel[1] = geo.dVoxel[1] * bin_factor
-    geo_binned.dVoxel[2] = geo.dVoxel[2] * bin_factor
-    geo_binned.sVoxel[1] = geo_binned.nVoxel[1] * geo_binned.dVoxel[1]
-    geo_binned.sVoxel[2] = geo_binned.nVoxel[2] * geo_binned.dVoxel[2]
+#    geo_binned.nVoxel[1] = geo.nVoxel[1] // bin_factor
+#    geo_binned.nVoxel[2] = geo.nVoxel[2] // bin_factor
+#    geo_binned.dVoxel[1] = geo.dVoxel[1] * bin_factor
+#    geo_binned.dVoxel[2] = geo.dVoxel[2] * bin_factor
+#    geo_binned.sVoxel[1] = geo_binned.nVoxel[1] * geo_binned.dVoxel[1]
+#    geo_binned.sVoxel[2] = geo_binned.nVoxel[2] * geo_binned.dVoxel[2]
 
-    print(geo_binned)
-    return proj_binned.mean(axis=-1),geo_binned
+#    print(geo_binned)
+#    return proj_binned.mean(axis=-1),geo_binned
+
+
+
+def bin_projection_geo(proj, geo, bin_factor):
+    """
+    Bins projection data along detector axis while preserving the detector center.
+    """
+    _, _, width = proj.shape
+    new_width = int(np.ceil(width / bin_factor))
+    half_old = (width - 1) / 2
+    half_new = (new_width - 1) / 2
+
+    new_proj = np.zeros((proj.shape[0], proj.shape[1], new_width))
+    x_old = np.arange(width)
+
+    for i in range(proj.shape[0]):
+        new_x = bin_factor * np.linspace(-half_new, half_new, new_width) + half_old
+        new_proj[i, 0, :] = np.interp(new_x, x_old, proj[i, 0, :])
+
+    new_geo = copy.deepcopy(geo)
+    new_geo.nDetector[1] = new_width
+    new_geo.dDetector[1] = geo.dDetector[1] * bin_factor
+    new_geo.sDetector[1] = new_geo.nDetector[1] * new_geo.dDetector[1]
+
+    # Adjust voxel grid too (optional but recommended)
+    new_geo.nVoxel[1] = geo.nVoxel[1] // bin_factor
+    new_geo.nVoxel[2] = geo.nVoxel[2] // bin_factor
+    new_geo.dVoxel[1] = geo.dVoxel[1] * bin_factor
+    new_geo.dVoxel[2] = geo.dVoxel[2] * bin_factor
+    new_geo.sVoxel[1] = new_geo.nVoxel[1] * new_geo.dVoxel[1]
+    new_geo.sVoxel[2] = new_geo.nVoxel[2] * new_geo.dVoxel[2]
+
+    return new_proj, new_geo
