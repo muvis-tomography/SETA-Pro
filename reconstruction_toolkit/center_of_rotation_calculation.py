@@ -95,8 +95,8 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
         #geo.rotation_axis_offset = offset
         voxel_mm_binnned = geo_binned.dVoxel[2]
         geo_binned.COR= offset * voxel_mm_binnned
-        print("binned", geo_binned.COR)
-        print(geo_binned)
+        #print("binned", geo_binned.COR)
+        #print(geo_binned)
         reco = algs.fdk(proj_filtered_binned, geo_binned, angles, gpuids=gpuids)
         sharpness = np.sum(reco[0] ** 2)
         sharpness_vals.append(sharpness)
@@ -112,9 +112,9 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
         coarse_offset = offsets[best_idx]
 
     scale = geo_binned.dDetector[1] / geo.dDetector[1]  
-    print("scale",scale)
+    #print("scale",scale)
     coarse_offset_corrected = coarse_offset #* geo_binned.dVoxel[2]
-    print("coarse_offset",np.abs(coarse_offset_corrected) )
+    #print("coarse_offset",np.abs(coarse_offset_corrected) )
 
     # --- STEP 4: Refined Golden Section Search using full-resolution data ---
     def sharpness_metric(offset):
