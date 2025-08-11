@@ -120,7 +120,7 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
     def sharpness_metric(offset):
         voxel_mm = geo.dVoxel[2]
         geo.COR  = offset * voxel_mm
-        print(geo.COR)
+        #print(geo.COR)
         reco = algs.fdk(proj_processed, geo, angles, gpuids=gpuids)
         return np.sum(reco[0] ** 2)
 
