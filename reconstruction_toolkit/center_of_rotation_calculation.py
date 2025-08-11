@@ -86,13 +86,11 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
 
     offsets = np.linspace(-grid_range_mm, grid_range_mm, n_grid)
     sharpness_vals = []
-    #print(proj_filtered_binned)
 
     print("Running initial grid search...")
-    #print(geo_binned)
-
+    
     for offset in offsets:
-        #geo.rotation_axis_offset = offset
+        
         voxel_mm_binnned = geo_binned.dVoxel[2]
         geo_binned.COR= offset * voxel_mm_binnned
         #print("binned", geo_binned.COR)
@@ -111,7 +109,7 @@ def calculate_COR(proj_central, geo2D, angles, gpuids, cor_mode=0, manual_cor_va
     else:
         coarse_offset = offsets[best_idx]
 
-    scale = geo_binned.dDetector[1] / geo.dDetector[1]  
+    #scale = geo_binned.dDetector[1] / geo.dDetector[1]  
     #print("scale",scale)
     coarse_offset_corrected = coarse_offset #* geo_binned.dVoxel[2]
     #print("coarse_offset",np.abs(coarse_offset_corrected) )
